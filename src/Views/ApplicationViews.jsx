@@ -1,7 +1,8 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "../Components/Nav/NavBar";
 import Home from "../Components/Home";
-import Recipes from "../Components/Recipes/Recipe";
+import Recipe from "../Components/Recipes/Recipe";
+import RecipeDetails from "../Components/Recipes/RecipeDetails";
 import { useState, useEffect } from "react";
 
 export const ApplicationViews = () => {
@@ -27,12 +28,16 @@ export const ApplicationViews = () => {
             </>
           }
         >
+          {/* Home Page */}
           <Route path="/" element={<Home />} />
-          <Route path="/recipes" element={<Recipes />} />
+
+          {/* Recipes List Page */}
+          <Route path="/recipes" element={<Recipe />} />
+
+          {/* Recipe Details Page */}
+          <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
         </Route>
       </Routes>
     </>
   );
 };
-
-export default ApplicationViews;

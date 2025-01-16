@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import RecipeService from "../../Services/RecipeServices";
+import "./Recipe.css";
 
 const Recipe = () => {
   const [recipes, setRecipes] = useState([]);
@@ -36,17 +38,20 @@ const Recipe = () => {
   };
 
   if (error) {
-    return <p>{error}</p>;
+    return <p className="error-message">{error}</p>;
   }
 
   return (
-    <div>
+    <div className="recipes-container">
       <h1>Recipes</h1>
-      <label htmlFor="difficulty-select">Filter by Difficulty:</label>
+      <label htmlFor="difficulty-select" className="filter-label">
+        Filter by Difficulty:
+      </label>
       <select
         id="difficulty-select"
         value={difficulty}
         onChange={handleDifficultyChange}
+        className="filter-select"
       >
         <option value="All">All</option>
         <option value="Beginner">Beginner</option>
@@ -55,8 +60,11 @@ const Recipe = () => {
       </select>
       <ul>
         {filteredRecipes.map((recipe) => (
-          <li key={recipe.recipeId}>
-            {recipe.name} - {recipe.difficulty}
+          <li key={recipe.recipeId} className="recipe-item">
+            <Link to={`/recipes/${recipe.recipeId}`} className="recipe-link">
+              <h2>{recipe.name}</h2>
+              <p>Difficulty: {recipe.difficulty}</p>
+            </Link>
           </li>
         ))}
       </ul>

@@ -24,6 +24,24 @@ const RecipeService = {
     return await response.json();
   },
 
+  getIngredientsByRecipeId: async (recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/RecipeIngredients/recipe/${recipeId}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching ingredients: ${response.statusText}`);
+    }
+    return await response.json();
+  },
+
+  // Fetch steps for a recipe
+  getStepsByRecipeId: async (recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/RecipeSteps/recipe/${recipeId}`
+    );
+    return await response.json();
+  },
+
   // Fetch a single recipe by ID
   getRecipeById: async (id) => {
     try {
@@ -52,6 +70,28 @@ const RecipeService = {
       return await response.json();
     } catch (error) {
       console.error("Error creating recipe:", error);
+      throw error;
+    }
+  },
+
+  // Save a recipe for the current user
+  saveRecipe: async (userId, recipeId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5122/api/SavedRecipes/user/${userId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ recipeId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error saving recipe:", error);
       throw error;
     }
   },
