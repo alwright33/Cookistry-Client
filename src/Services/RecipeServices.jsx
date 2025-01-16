@@ -1,6 +1,6 @@
 const BASE_URL = "/api/Recipes";
 
-export const RecipeService = {
+const RecipeService = {
   // Fetch all recipes
   getAllRecipes: async () => {
     try {
@@ -13,6 +13,15 @@ export const RecipeService = {
       console.error("Error fetching recipes:", error);
       throw error;
     }
+  },
+
+  // Fetch recipes by difficulty
+  getRecipesByDifficulty: async (difficulty) => {
+    const response = await fetch(`${BASE_URL}?difficulty=${difficulty}`);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    return await response.json();
   },
 
   // Fetch a single recipe by ID
@@ -81,3 +90,5 @@ export const RecipeService = {
     }
   },
 };
+
+export default RecipeService;
