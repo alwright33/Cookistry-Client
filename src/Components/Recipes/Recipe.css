@@ -1,6 +1,4 @@
-/* recipe.css */
 
-/* Container for the list of recipes */
 .recipes-container {
     margin: 2rem auto;
     padding: 1rem;
@@ -11,7 +9,6 @@
     text-align: center;
   }
   
-  /* Heading for the recipes list */
   .recipes-container h1 {
     color: var(--primary-accent);
     font-size: 2.4rem;
@@ -19,14 +16,12 @@
     font-weight: bold;
   }
   
-  /* List styling */
   .recipe-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
   }
   
-  /* Individual recipe item */
   .recipe-item {
     background-color: white;
     border: 1px solid #ddd;
@@ -37,27 +32,23 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
-  /* Hover effect for recipe items */
   .recipe-item:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   }
   
-  /* Recipe name */
   .recipe-item h2 {
     color: var(--primary-text);
     font-size: 1.8rem;
     margin-bottom: 0.5rem;
   }
   
-  /* Recipe details */
   .recipe-item p {
     color: var(--secondary-text);
     font-size: 1rem;
     margin: 0.2rem 0;
   }
   
-  /* Add responsive design */
   @media (max-width: 600px) {
     .recipes-container {
       padding: 1rem;

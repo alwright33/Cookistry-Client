@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Login = ({ onLoginSuccess }) => {
+export const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +27,14 @@ const Login = ({ onLoginSuccess }) => {
       }
 
       const data = await response.json();
-      onLoginSuccess(data.userId);
+
+      localStorage.setItem("cookistry_user", JSON.stringify(data));
+
+      if (onLoginSuccess) {
+        onLoginSuccess(data.userId);
+      }
+
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
@@ -43,7 +52,6 @@ const Login = ({ onLoginSuccess }) => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-
         <label>Password:</label>
         <input
           type="password"
@@ -51,11 +59,8 @@ const Login = ({ onLoginSuccess }) => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
         <button type="submit">Login</button>
       </form>
     </div>
   );
 };
-
-export default Login;

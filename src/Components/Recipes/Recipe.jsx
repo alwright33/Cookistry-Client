@@ -11,7 +11,7 @@ const Recipes = () => {
       try {
         const data = await RecipeService.getAllRecipes();
         setRecipes(data);
-      } catch (err) {
+      } catch (error) {
         setError("Failed to load recipes. Please try again later.");
       }
     };
