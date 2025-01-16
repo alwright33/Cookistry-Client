@@ -1,0 +1,74 @@
+/* recipe.css */
+
+/* Container for the list of recipes */
+.recipes-container {
+    margin: 2rem auto;
+    padding: 1rem;
+    max-width: 800px;
+    background-color: var(--background-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Heading for the recipes list */
+  .recipes-container h1 {
+    color: var(--primary-accent);
+    font-size: 2.4rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  
+  /* List styling */
+  .recipe-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Individual recipe item */
+  .recipe-item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin: 1rem 0;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  /* Hover effect for recipe items */
+  .recipe-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Recipe name */
+  .recipe-item h2 {
+    color: var(--primary-text);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Recipe details */
+  .recipe-item p {
+    color: var(--secondary-text);
+    font-size: 1rem;
+    margin: 0.2rem 0;
+  }
+  
+  /* Add responsive design */
+  @media (max-width: 600px) {
+    .recipes-container {
+      padding: 1rem;
+    }
+  
+    .recipe-item h2 {
+      font-size: 1.5rem;
+    }
+  
+    .recipe-item p {
+      font-size: 0.9rem;
+    }
+  }
+  

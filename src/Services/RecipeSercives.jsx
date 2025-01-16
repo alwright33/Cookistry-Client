@@ -1,6 +1,6 @@
-const BASE_URL = "http://localhost:5122/api/Recipes";
+const BASE_URL = "/api/Recipes";
 
-const RecipeService = {
+export const RecipeService = {
   // Fetch all recipes
   getAllRecipes: async () => {
     try {
@@ -81,5 +81,3 @@ const RecipeService = {
     }
   },
 };
-
-export default RecipeService;
