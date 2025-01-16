@@ -34,6 +34,21 @@ const RecipeService = {
     return await response.json();
   },
 
+  // Fetch saved recipes for a user
+  getSavedRecipes: async (userId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/SavedRecipes/user/${userId}`
+    );
+    if (!response.ok) {
+      if (response.status === 404) {
+        return [];
+      }
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch saved recipes.");
+    }
+    return await response.json();
+  },
+
   // Fetch steps for a recipe
   getStepsByRecipeId: async (recipeId) => {
     const response = await fetch(
@@ -111,6 +126,20 @@ const RecipeService = {
     } catch (error) {
       console.error(`Error updating recipe with ID ${id}:`, error);
       throw error;
+    }
+  },
+
+  removeSavedRecipe: async (userId, recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/SavedRecipes/user/${userId}/recipe/${recipeId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to remove saved recipe.");
     }
   },
 

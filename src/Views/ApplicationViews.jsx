@@ -3,6 +3,7 @@ import NavBar from "../Components/Nav/NavBar";
 import Home from "../Components/Home";
 import Recipe from "../Components/Recipes/Recipe";
 import RecipeDetails from "../Components/Recipes/RecipeDetails";
+import SavedRecipes from "../Components/Recipes/SavedRecipes";
 import { useState, useEffect } from "react";
 
 export const ApplicationViews = () => {
@@ -28,14 +29,20 @@ export const ApplicationViews = () => {
             </>
           }
         >
-          {/* Home Page */}
           <Route path="/" element={<Home />} />
 
-          {/* Recipes List Page */}
           <Route path="/recipes" element={<Recipe />} />
 
-          {/* Recipe Details Page */}
-          <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
+          <Route
+            path="/recipes/:recipeId"
+            element={
+              <RecipeDetails
+                isSavedRecipe={window.location.search.includes("saved=true")}
+              />
+            }
+          />
+
+          <Route path="/saved-recipes" element={<SavedRecipes />} />
         </Route>
       </Routes>
     </>
