@@ -1,5 +1,10 @@
 const BASE_URL = "/api/Recipes";
 
+const getAuthToken = () => {
+  const user = JSON.parse(localStorage.getItem("cookistry_user"));
+  return user ? `Bearer ${user.token}` : null;
+};
+
 const RecipeService = {
   // Fetch all recipes
   getAllRecipes: async () => {
@@ -24,6 +29,39 @@ const RecipeService = {
     return await response.json();
   },
 
+  getIngredientsByRecipeId: async (recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/RecipeIngredients/recipe/${recipeId}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching ingredients: ${response.statusText}`);
+    }
+    return await response.json();
+  },
+
+  // Fetch saved recipes for a user
+  getSavedRecipes: async (userId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/SavedRecipes/user/${userId}`
+    );
+    if (!response.ok) {
+      if (response.status === 404) {
+        return [];
+      }
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to fetch saved recipes.");
+    }
+    return await response.json();
+  },
+
+  // Fetch steps for a recipe
+  getStepsByRecipeId: async (recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/RecipeSteps/recipe/${recipeId}`
+    );
+    return await response.json();
+  },
+
   // Fetch a single recipe by ID
   getRecipeById: async (id) => {
     try {
@@ -41,9 +79,19 @@ const RecipeService = {
   // Create a new recipe
   createRecipe: async (recipeData) => {
     try {
+      const user = JSON.parse(localStorage.getItem("cookistry_user"));
+      if (!user || !user.token) {
+        throw new Error("Unauthorized: Missing user token.");
+      }
+      console.log("Sending Authorization Header:", `Bearer ${user.token}`);
+      console.log("Recipe Data Being Sent:", recipeData);
+
       const response = await fetch(BASE_URL, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: getAuthToken(),
+        },
         body: JSON.stringify(recipeData),
       });
       if (!response.ok) {
@@ -52,6 +100,28 @@ const RecipeService = {
       return await response.json();
     } catch (error) {
       console.error("Error creating recipe:", error);
+      throw error;
+    }
+  },
+
+  // Save a recipe for the current user
+  saveRecipe: async (userId, recipeId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5122/api/SavedRecipes/user/${userId}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ recipeId }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error saving recipe:", error);
       throw error;
     }
   },
@@ -71,6 +141,20 @@ const RecipeService = {
     } catch (error) {
       console.error(`Error updating recipe with ID ${id}:`, error);
       throw error;
+    }
+  },
+
+  removeSavedRecipe: async (userId, recipeId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/SavedRecipes/user/${userId}/recipe/${recipeId}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Failed to remove saved recipe.");
     }
   },
 

@@ -1,7 +1,10 @@
 import { Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "../Components/Nav/NavBar";
 import Home from "../Components/Home";
-import Recipes from "../Components/Recipes/Recipe";
+import Recipe from "../Components/Recipes/Recipe";
+import RecipeDetails from "../Components/Recipes/RecipeDetails";
+import SavedRecipes from "../Components/Recipes/SavedRecipes";
+import CreateRecipe from "../Components/Recipes/CreateRecipe";
 import { useState, useEffect } from "react";
 
 export const ApplicationViews = () => {
@@ -28,11 +31,19 @@ export const ApplicationViews = () => {
           }
         >
           <Route path="/" element={<Home />} />
-          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/recipes" element={<Recipe />} />
+          <Route
+            path="/recipes/:recipeId"
+            element={
+              <RecipeDetails
+                isSavedRecipe={window.location.search.includes("saved=true")}
+              />
+            }
+          />
+          <Route path="/new-recipe" element={<CreateRecipe />} />
+          <Route path="/saved-recipes" element={<SavedRecipes />} />
         </Route>
       </Routes>
     </>
   );
 };
-
-export default ApplicationViews;

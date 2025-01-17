@@ -1,0 +1,104 @@
+.container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--background-light);
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+.container h1 {
+  font-size: 2.5rem;
+  color: var(--primary-text);
+  margin-bottom: 0.5rem;
+}
+
+.container p {
+  color: var(--secondary-text);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.container .recipe-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--secondary-text);
+  padding-bottom: 1rem;
+}
+
+.container .recipe-info p {
+  margin: 0;
+}
+
+.container h2 {
+  font-size: 1.8rem;
+  color: var(--primary-text);
+  margin-bottom: 1rem;
+}
+
+.container ul,
+.container ol {
+  padding-left: 20px;
+  margin-bottom: 2rem;
+}
+
+.container ul li,
+.container ol li {
+  background-color: var(--background-light);
+  margin: 10px 0;
+  padding: 10px 15px;
+  border-left: 3px solid var(--primary-accent);
+  border-bottom: 1px solid var(--primary-accent);
+  border-radius: 5px;
+}
+
+
+.recipe-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--secondary-text);
+}
+
+.recipe-info > p {
+  margin: 0 1rem;
+}
+
+.container {
+  position: relative; 
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--background-light);
+  border-radius: 12px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+.save-button-container {
+  position: absolute; 
+  top: 20px; 
+  right: 20px; 
+  z-index: 10; 
+}
+
+.save-button-container button {
+  background-color: var(--primary-accent);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.save-button-container button:hover {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+}
