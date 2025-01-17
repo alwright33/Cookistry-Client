@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ onLogout }) => {
   return (
     <nav className="navbar">
       <ul className="nav-list">
@@ -26,9 +26,9 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link" to="/login">
+          <button className="nav-link logout-button" onClick={onLogout}>
             Logout
-          </Link>
+          </button>
         </li>
       </ul>
     </nav>

@@ -1,13 +1,15 @@
-import { Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "../Components/Nav/NavBar";
 import Home from "../Components/Home";
 import Recipe from "../Components/Recipes/Recipe";
 import RecipeDetails from "../Components/Recipes/RecipeDetails";
 import SavedRecipes from "../Components/Recipes/SavedRecipes";
 import CreateRecipe from "../Components/Recipes/CreateRecipe";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ApplicationViews = () => {
+  const navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
@@ -18,9 +20,25 @@ export const ApplicationViews = () => {
     }
   }, []);
 
+  const handleLogout = async () => {
+    const user = JSON.parse(localStorage.getItem("cookistry_user"));
+    if (!user || !user.token) return;
+
+    try {
+      await fetch("http://localhost:5122/api/Authentication/logout", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+      localStorage.removeItem("cookistry_user");
+      navigate("/login"); // Redirect to login page
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
+
   return (
     <>
-      <NavBar />
+      <NavBar onLogout={handleLogout} />
       <Routes>
         <Route
           path="/"
