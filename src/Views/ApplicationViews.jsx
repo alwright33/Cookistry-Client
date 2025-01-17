@@ -4,6 +4,7 @@ import Home from "../Components/Home";
 import Recipe from "../Components/Recipes/Recipe";
 import RecipeDetails from "../Components/Recipes/RecipeDetails";
 import SavedRecipes from "../Components/Recipes/SavedRecipes";
+import CreateRecipe from "../Components/Recipes/CreateRecipe";
 import { useState, useEffect } from "react";
 
 export const ApplicationViews = () => {
@@ -30,9 +31,7 @@ export const ApplicationViews = () => {
           }
         >
           <Route path="/" element={<Home />} />
-
           <Route path="/recipes" element={<Recipe />} />
-
           <Route
             path="/recipes/:recipeId"
             element={
@@ -41,7 +40,7 @@ export const ApplicationViews = () => {
               />
             }
           />
-
+          <Route path="/new-recipe" element={<CreateRecipe />} />
           <Route path="/saved-recipes" element={<SavedRecipes />} />
         </Route>
       </Routes>

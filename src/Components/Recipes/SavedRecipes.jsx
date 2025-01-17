@@ -45,7 +45,7 @@ const SavedRecipes = () => {
   }
 
   if (savedRecipes.length === 0) {
-    return <p>You haven't saved any recipes yet.</p>;
+    return <p>You do not have any saved recipes yet.</p>;
   }
 
   return (

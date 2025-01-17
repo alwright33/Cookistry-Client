@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Login = ({ onLoginSuccess }) => {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,13 +27,8 @@ export const Login = ({ onLoginSuccess }) => {
       }
 
       const data = await response.json();
-
       localStorage.setItem("cookistry_user", JSON.stringify(data));
-
-      if (onLoginSuccess) {
-        onLoginSuccess(data.userId);
-      }
-
+      alert("Login successful!");
       navigate("/");
     } catch (err) {
       setError(err.message);

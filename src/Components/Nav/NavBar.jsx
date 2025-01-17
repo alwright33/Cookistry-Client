@@ -21,6 +21,11 @@ const Navbar = () => {
           </Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to="/new-recipe">
+            Share a Recipe
+          </Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" to="/login">
             Logout
           </Link>
