@@ -7,20 +7,15 @@ const SavedRecipes = () => {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [difficulty, setDifficulty] = useState("All");
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchSavedRecipes = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem("cookistry_user"));
-        if (!user) throw new Error("User not logged in");
+      const user = JSON.parse(localStorage.getItem("cookistry_user"));
+      if (!user) throw new Error("User not logged in");
 
-        const data = await RecipeService.getSavedRecipes(user.userId);
-        setSavedRecipes(data);
-        setFilteredRecipes(data); // Initially show all saved recipes
-      } catch (err) {
-        setError(err.message || "Failed to load saved recipes.");
-      }
+      const data = await RecipeService.getSavedRecipes(user.userId);
+      setSavedRecipes(data);
+      setFilteredRecipes(data);
     };
 
     fetchSavedRecipes();
@@ -39,10 +34,6 @@ const SavedRecipes = () => {
       setFilteredRecipes(filtered);
     }
   };
-
-  if (error) {
-    return <p className="error-message">{error}</p>;
-  }
 
   if (savedRecipes.length === 0) {
     return <p>You do not have any saved recipes yet.</p>;

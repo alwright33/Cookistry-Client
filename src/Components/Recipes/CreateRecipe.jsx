@@ -11,11 +11,11 @@ const CreateRecipe = () => {
     prepTime: "",
     difficulty: "Beginner",
   });
-  const [ingredients, setIngredients] = useState([]); // To store added ingredients
-  const [steps, setSteps] = useState([]); // To store added steps
-  const [ingredientModalOpen, setIngredientModalOpen] = useState(false); // Controls modal visibility
-  const [availableIngredients, setAvailableIngredients] = useState([]); // All ingredients from backend
-  const [selectedIngredient, setSelectedIngredient] = useState(null); // Ingredient currently being added
+  const [ingredients, setIngredients] = useState([]);
+  const [steps, setSteps] = useState([]);
+  const [ingredientModalOpen, setIngredientModalOpen] = useState(false);
+  const [availableIngredients, setAvailableIngredients] = useState([]);
+  const [selectedIngredient, setSelectedIngredient] = useState(null);
   const [ingredientDetails, setIngredientDetails] = useState({
     quantity: "",
     unit: "",
@@ -45,7 +45,7 @@ const CreateRecipe = () => {
   };
 
   const handleSelectIngredient = (ingredient) => {
-    setSelectedIngredient(ingredient); // Set the selected ingredient
+    setSelectedIngredient(ingredient);
   };
 
   const handleAddIngredientDetails = () => {
@@ -53,7 +53,7 @@ const CreateRecipe = () => {
       ...prevIngredients,
       {
         ...selectedIngredient,
-        ...ingredientDetails, // Include quantity, unit, and prep details
+        ...ingredientDetails,
       },
     ]);
     setSelectedIngredient(null);
@@ -94,12 +94,18 @@ const CreateRecipe = () => {
         ...formData,
         cookTime: Number(formData.cookTime),
         prepTime: Number(formData.prepTime),
-        ingredients,
+        ingredients: ingredients.map((ing) => ({
+          ingredientId: ing.ingredientId,
+          quantity: Number(ing.quantity),
+          unit: ing.unit,
+          prepDetails: ing.prepDetails,
+        })),
         steps: steps.map((step, index) => ({
           stepNumber: index + 1,
           stepInstruction: step,
         })),
       };
+      console.log("Submitting recipe data:", recipeData);
 
       await RecipeService.createRecipe(recipeData, user.userId);
       alert("Recipe created successfully!");
@@ -113,7 +119,6 @@ const CreateRecipe = () => {
       setIngredients([]);
       setSteps([]);
     } catch (err) {
-      console.error("Error creating recipe:", err);
       alert(`Error: ${err.message}`);
     }
   };
