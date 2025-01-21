@@ -27,7 +27,7 @@ const CreateRecipe = () => {
     const fetchIngredients = async () => {
       try {
         const ingredients = await IngredientService.getAllIngredients();
-        setAvailableIngredients(ingredients); // Store the ingredients in state
+        setAvailableIngredients(ingredients);
       } catch (err) {
         console.error("Error fetching ingredients:", err);
       }
@@ -76,8 +76,8 @@ const CreateRecipe = () => {
     e.preventDefault();
     try {
       const user = JSON.parse(localStorage.getItem("cookistry_user"));
-      if (!user || !user.token) {
-        throw new Error("Unauthorized: Please log in to create a recipe.");
+      if (!user || !user.userId) {
+        throw new Error("Unauthorized: User ID is missing.");
       }
 
       if (ingredients.length === 0) {
@@ -101,7 +101,7 @@ const CreateRecipe = () => {
         })),
       };
 
-      await RecipeService.createRecipe(recipeData);
+      await RecipeService.createRecipe(recipeData, user.userId);
       alert("Recipe created successfully!");
       setFormData({
         name: "",

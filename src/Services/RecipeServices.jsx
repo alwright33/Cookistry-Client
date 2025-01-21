@@ -83,15 +83,12 @@ const RecipeService = {
         body: JSON.stringify(recipeData),
       }
     );
-
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Failed to create recipe");
+      const error = await response.json();
+      throw new Error(error.message || "Failed to create recipe");
     }
-
     return await response.json();
   },
-
   // Save a recipe for the current user
   saveRecipe: async (userId, recipeId) => {
     try {
