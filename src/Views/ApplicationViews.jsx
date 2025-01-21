@@ -7,6 +7,7 @@ import CreateRecipe from "../Components/Recipes/CreateRecipe";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UpdateRecipe from "../Components/Recipes/UpdateRecipe";
 
 export const ApplicationViews = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const ApplicationViews = () => {
         headers: { Authorization: `Bearer ${user.token}` },
       });
       localStorage.removeItem("cookistry_user");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -60,6 +61,7 @@ export const ApplicationViews = () => {
           />
           <Route path="/new-recipe" element={<CreateRecipe />} />
           <Route path="/saved-recipes" element={<SavedRecipes />} />
+          <Route path="/recipes/:update/:recipeId" element={<UpdateRecipe />} />
         </Route>
       </Routes>
     </>
