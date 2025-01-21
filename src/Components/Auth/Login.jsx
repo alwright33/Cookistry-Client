@@ -27,7 +27,10 @@ export const Login = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem("cookistry_user", JSON.stringify(data));
+      localStorage.setItem(
+        "cookistry_user",
+        JSON.stringify({ userId: data.userId })
+      );
       alert("Login successful!");
       navigate("/");
     } catch (err) {

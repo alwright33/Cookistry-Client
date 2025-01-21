@@ -1,10 +1,5 @@
 const BASE_URL = "/api/Recipes";
 
-const getAuthToken = () => {
-  const user = JSON.parse(localStorage.getItem("cookistry_user"));
-  return user ? `Bearer ${user.token}` : null;
-};
-
 const RecipeService = {
   // Fetch all recipes
   getAllRecipes: async () => {
@@ -77,33 +72,23 @@ const RecipeService = {
   },
 
   // Create a new recipe
-  createRecipe: async (recipeData) => {
-    try {
-      const user = JSON.parse(localStorage.getItem("cookistry_user"));
-      if (!user || !user.token) {
-        throw new Error("Unauthorized: Missing user token.");
-      }
-      console.log("Sending Authorization Header:", `Bearer ${user.token}`);
-      console.log("Recipe Data Being Sent:", recipeData);
-
-      const response = await fetch(BASE_URL, {
+  createRecipe: async (recipeData, userId) => {
+    const response = await fetch(
+      `http://localhost:5122/api/Recipes?userId=${userId}`,
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: getAuthToken(),
         },
         body: JSON.stringify(recipeData),
-      });
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
       }
-      return await response.json();
-    } catch (error) {
-      console.error("Error creating recipe:", error);
-      throw error;
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to create recipe");
     }
+    return await response.json();
   },
-
   // Save a recipe for the current user
   saveRecipe: async (userId, recipeId) => {
     try {
