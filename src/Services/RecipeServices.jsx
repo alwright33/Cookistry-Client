@@ -83,12 +83,15 @@ const RecipeService = {
         body: JSON.stringify(recipeData),
       }
     );
+
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.message || "Failed to create recipe");
     }
+
     return await response.json();
   },
+
   // Save a recipe for the current user
   saveRecipe: async (userId, recipeId) => {
     try {
@@ -114,21 +117,33 @@ const RecipeService = {
   // Update a recipe
   updateRecipe: async (id, recipeData) => {
     try {
-      const response = await fetch(`${BASE_URL}/${id}`, {
+      const response = await fetch(`http://localhost:5122/api/recipes/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(recipeData),
       });
+
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const errorData = await response.json().catch(() => null); // Catch and handle empty response
+        throw new Error(
+          errorData?.message ||
+            `Error: ${response.status} ${response.statusText}`
+        );
       }
+
+      // Handle no content responses (204)
+      if (response.status === 204) {
+        return null;
+      }
+
       return await response.json();
     } catch (error) {
       console.error(`Error updating recipe with ID ${id}:`, error);
       throw error;
     }
   },
-
   removeSavedRecipe: async (userId, recipeId) => {
     const response = await fetch(
       `http://localhost:5122/api/SavedRecipes/user/${userId}/recipe/${recipeId}`,
