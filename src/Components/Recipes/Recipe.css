@@ -25,6 +25,6 @@
 
 .filter-container {
   display: flex;
-  justify-content: flex-end; /* Aligns the filter to the right */
-  gap: 0.5rem; /* Optional: Adds space between the label and the select dropdown */
+  justify-content: flex-end; 
+  gap: 0.5rem; 
 }

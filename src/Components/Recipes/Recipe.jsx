@@ -7,17 +7,12 @@ const Recipe = () => {
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [difficulty, setDifficulty] = useState("All");
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      try {
-        const data = await RecipeService.getAllRecipes();
-        setRecipes(data);
-        setFilteredRecipes(data); // Initially show all recipes
-      } catch (error) {
-        setError("Failed to load recipes. Please try again later.");
-      }
+      const data = await RecipeService.getAllRecipes();
+      setRecipes(data);
+      setFilteredRecipes(data);
     };
 
     fetchRecipes();
@@ -36,10 +31,6 @@ const Recipe = () => {
       setFilteredRecipes(filtered);
     }
   };
-
-  if (error) {
-    return <p className="error-message">{error}</p>;
-  }
 
   return (
     <div className="recipes-container">
