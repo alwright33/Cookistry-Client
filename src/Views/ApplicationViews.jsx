@@ -4,6 +4,7 @@ import Recipe from "../Components/Recipes/Recipe";
 import RecipeDetails from "../Components/Recipes/RecipeDetails";
 import SavedRecipes from "../Components/Recipes/SavedRecipes";
 import CreateRecipe from "../Components/Recipes/CreateRecipe";
+import Register from "../Components/Auth/Register";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,9 +28,12 @@ export const ApplicationViews = () => {
     navigate("/login");
   };
 
+  const hideNavBarRoutes = ["/register"];
+  const showNavBar = !hideNavBarRoutes.includes(location.pathname);
+
   return (
     <>
-      <NavBar onLogout={handleLogout} />
+      {showNavBar && <NavBar onLogout={handleLogout} />}
       <Routes>
         <Route
           path="/"
@@ -52,6 +56,7 @@ export const ApplicationViews = () => {
           <Route path="/new-recipe" element={<CreateRecipe />} />
           <Route path="/saved-recipes" element={<SavedRecipes />} />
           <Route path="/recipes/:update/:recipeId" element={<UpdateRecipe />} />
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </>
