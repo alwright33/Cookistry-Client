@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,18 +23,27 @@ export const Login = () => {
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Login failed");
+        const errorData = await response.json().catch(() => null);
+        throw new Error(errorData?.message || "Login failed");
       }
 
-      const data = await response.json();
+      const contentType = response.headers.get("content-type");
+      const data =
+        contentType && contentType.includes("application/json")
+          ? await response.json()
+          : {}; // Fallback to an empty object
+
+      if (!data.userId) {
+        throw new Error("Login response missing user ID");
+      }
+
       localStorage.setItem(
         "cookistry_user",
         JSON.stringify({ userId: data.userId })
       );
-      alert("Login successful!");
       navigate("/");
     } catch (err) {
+      console.error("Login error:", err);
       setError(err.message);
     }
   };
