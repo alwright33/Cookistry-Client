@@ -1,5 +1,5 @@
 import NavBar from "../Components/Nav/NavBar";
-import Home from "../Components/Home";
+import Home from "../Components/Home/Home";
 import Recipe from "../Components/Recipes/Recipe";
 import RecipeDetails from "../Components/Recipes/RecipeDetails";
 import SavedRecipes from "../Components/Recipes/SavedRecipes";

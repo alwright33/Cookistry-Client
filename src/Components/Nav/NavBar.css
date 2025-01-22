@@ -48,3 +48,35 @@
   color: var(--button-hover);
   transform: scale(1.1);
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1em;
+  }
+
+  .nav-list {
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+  }
+
+  .nav-link, .logout-button {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.5em 1em;
+  }
+
+  .nav-list {
+    gap: 0.5em;
+  }
+
+  .nav-link, .logout-button {
+    font-size: 0.9em;
+  }
+}

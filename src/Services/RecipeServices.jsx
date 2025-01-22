@@ -126,7 +126,7 @@ const RecipeService = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null); // Catch and handle empty response
+        const errorData = await response.json().catch(() => null);
         throw new Error(
           errorData?.message ||
             `Error: ${response.status} ${response.statusText}`
@@ -166,14 +166,13 @@ const RecipeService = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => null); // Catch and handle empty response
+        const errorData = await response.json().catch(() => null);
         throw new Error(
           errorData?.message ||
             `Error: ${response.status} ${response.statusText}`
         );
       }
 
-      // Handle no content responses (204)
       if (response.status === 204) {
         return null;
       }

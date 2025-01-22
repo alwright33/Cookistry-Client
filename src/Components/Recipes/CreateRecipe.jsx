@@ -117,6 +117,7 @@ const CreateRecipe = () => {
       };
 
       await RecipeService.createRecipe(recipeData, user.userId);
+
       setFormData({
         name: "",
         description: "",
