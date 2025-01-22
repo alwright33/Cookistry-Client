@@ -15,8 +15,6 @@ const RecipeDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let isMounted = true; // Prevent state updates if component unmounts
-
     const fetchRecipeData = async () => {
       try {
         if (!recipeId) throw new Error("Invalid recipe ID.");
@@ -27,37 +25,26 @@ const RecipeDetails = () => {
         );
         const recipeSteps = await RecipeService.getStepsByRecipeId(recipeId);
 
-        if (isMounted) {
-          setRecipe(recipeDetails);
-          setIngredients(recipeIngredients);
-          setSteps(recipeSteps);
+        setRecipe(recipeDetails);
+        setIngredients(recipeIngredients);
+        setSteps(recipeSteps);
 
-          const savedRecipes = await RecipeService.getSavedRecipes(userId);
-          setIsSaved(
-            savedRecipes.some((r) => r.recipeId === parseInt(recipeId))
-          );
-        }
+        const savedRecipes = await RecipeService.getSavedRecipes(userId);
+        setIsSaved(savedRecipes.some((r) => r.recipeId === parseInt(recipeId)));
       } catch (err) {
-        if (isMounted) {
-          console.error(`Error fetching recipe with ID ${recipeId}:`, err);
-          alert("Recipe not found or has been deleted.");
-          navigate("/recipes"); // Redirect if recipe fetch fails
-        }
+        console.error(`Error fetching recipe with ID ${recipeId}:`, err);
+        alert("Recipe not found or has been deleted.");
+        navigate("/recipes");
       }
     };
 
     fetchRecipeData();
-
-    return () => {
-      isMounted = false; // Cleanup on unmount
-    };
   }, [recipeId, userId, navigate]);
 
   const handleSaveRecipe = async () => {
     try {
       await RecipeService.saveRecipe(userId, recipeId);
       setIsSaved(true);
-      alert("Recipe saved successfully!");
     } catch (error) {
       console.error("Error saving recipe:", error);
     }
@@ -67,7 +54,6 @@ const RecipeDetails = () => {
     try {
       await RecipeService.removeSavedRecipe(userId, recipeId);
       setIsSaved(false);
-      alert("Recipe removed successfully!");
     } catch (error) {
       console.error("Error removing recipe:", error);
     }
@@ -76,8 +62,7 @@ const RecipeDetails = () => {
   const handleDeleteRecipe = async () => {
     try {
       await RecipeService.deleteRecipe(recipeId);
-      alert("Recipe deleted successfully!");
-      navigate("/recipes"); // Redirect to the recipes page after deletion
+      navigate("/recipes");
     } catch (err) {
       alert(`Error deleting recipe: ${err.message}`);
     }
@@ -98,12 +83,6 @@ const RecipeDetails = () => {
           <button onClick={handleSaveRecipe}>Save Recipe</button>
         )}
       </div>
-      {recipe && recipe.authorId === userId && (
-        <div className="owner-actions">
-          <button onClick={handleUpdateRecipe}>Update Recipe</button>
-          <button onClick={handleDeleteRecipe}>Delete Recipe</button>
-        </div>
-      )}
       {recipe ? (
         <>
           <h1>{recipe.name}</h1>
@@ -142,6 +121,12 @@ const RecipeDetails = () => {
         </>
       ) : (
         <p>Loading recipe details...</p>
+      )}
+      {recipe && recipe.authorId === userId && (
+        <div className="owner-actions">
+          <button onClick={handleUpdateRecipe}>Update Recipe</button>
+          <button onClick={handleDeleteRecipe}>Delete Recipe</button>
+        </div>
       )}
     </div>
   );
