@@ -15,25 +15,43 @@ const RecipeDetails = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    let isMounted = true; // Prevent state updates if component unmounts
+
     const fetchRecipeData = async () => {
-      if (!recipeId) throw new Error("Invalid recipe ID.");
+      try {
+        if (!recipeId) throw new Error("Invalid recipe ID.");
 
-      const recipeDetails = await RecipeService.getRecipeById(recipeId);
-      const recipeIngredients = await RecipeService.getIngredientsByRecipeId(
-        recipeId
-      );
-      const recipeSteps = await RecipeService.getStepsByRecipeId(recipeId);
+        const recipeDetails = await RecipeService.getRecipeById(recipeId);
+        const recipeIngredients = await RecipeService.getIngredientsByRecipeId(
+          recipeId
+        );
+        const recipeSteps = await RecipeService.getStepsByRecipeId(recipeId);
 
-      setRecipe(recipeDetails);
-      setIngredients(recipeIngredients);
-      setSteps(recipeSteps);
+        if (isMounted) {
+          setRecipe(recipeDetails);
+          setIngredients(recipeIngredients);
+          setSteps(recipeSteps);
 
-      const savedRecipes = await RecipeService.getSavedRecipes(userId);
-      setIsSaved(savedRecipes.some((r) => r.recipeId === parseInt(recipeId)));
+          const savedRecipes = await RecipeService.getSavedRecipes(userId);
+          setIsSaved(
+            savedRecipes.some((r) => r.recipeId === parseInt(recipeId))
+          );
+        }
+      } catch (err) {
+        if (isMounted) {
+          console.error(`Error fetching recipe with ID ${recipeId}:`, err);
+          alert("Recipe not found or has been deleted.");
+          navigate("/recipes"); // Redirect if recipe fetch fails
+        }
+      }
     };
 
     fetchRecipeData();
-  }, [recipeId, userId]);
+
+    return () => {
+      isMounted = false; // Cleanup on unmount
+    };
+  }, [recipeId, userId, navigate]);
 
   const handleSaveRecipe = async () => {
     try {
@@ -59,9 +77,9 @@ const RecipeDetails = () => {
     try {
       await RecipeService.deleteRecipe(recipeId);
       alert("Recipe deleted successfully!");
-      navigate("/");
-    } catch (error) {
-      console.error("Error deleting recipe:", error);
+      navigate("/recipes"); // Redirect to the recipes page after deletion
+    } catch (err) {
+      alert(`Error deleting recipe: ${err.message}`);
     }
   };
 

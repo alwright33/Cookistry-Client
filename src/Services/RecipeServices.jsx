@@ -164,9 +164,20 @@ const RecipeService = {
       const response = await fetch(`${BASE_URL}/${id}`, {
         method: "DELETE",
       });
+
       if (!response.ok) {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+        const errorData = await response.json().catch(() => null); // Catch and handle empty response
+        throw new Error(
+          errorData?.message ||
+            `Error: ${response.status} ${response.statusText}`
+        );
       }
+
+      // Handle no content responses (204)
+      if (response.status === 204) {
+        return null;
+      }
+
       return await response.json();
     } catch (error) {
       console.error(`Error deleting recipe with ID ${id}:`, error);
