@@ -33,3 +33,18 @@
   color: var(--button-hover);
   transform: scale(1.1);
 }
+
+.logout-button {
+  all: unset; /* Resets default button styles */
+  color: white;
+  font-weight: 500;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+  text-align: center;
+}
+
+.logout-button:hover {
+  color: var(--button-hover);
+  transform: scale(1.1);
+}

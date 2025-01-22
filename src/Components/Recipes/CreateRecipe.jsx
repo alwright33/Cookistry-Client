@@ -61,9 +61,19 @@ const CreateRecipe = () => {
     setIngredientModalOpen(false);
   };
 
+  const handleRemoveIngredient = (index) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.filter((_, i) => i !== index)
+    );
+  };
+
   const handleAddStep = () => {
     setSteps((prevSteps) => [...prevSteps, newStep]);
     setNewStep("");
+  };
+
+  const handleRemoveStep = (index) => {
+    setSteps((prevSteps) => prevSteps.filter((_, i) => i !== index));
   };
 
   const closeIngredientModal = () => {
@@ -105,10 +115,8 @@ const CreateRecipe = () => {
           stepInstruction: step,
         })),
       };
-      console.log("Submitting recipe data:", recipeData);
 
       await RecipeService.createRecipe(recipeData, user.userId);
-      alert("Recipe created successfully!");
       setFormData({
         name: "",
         description: "",
@@ -196,21 +204,33 @@ const CreateRecipe = () => {
           </button>
           <ul>
             {ingredients.map((ingredient, index) => (
-              <li key={index}>
+              <li key={index} style={{ display: "flex", alignItems: "center" }}>
                 {ingredient.name} - {ingredient.quantity} {ingredient.unit} (
                 {ingredient.prepDetails})
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveIngredient(index)}
+                  title="Remove ingredient"
+                >
+                  ✖
+                </button>
               </li>
             ))}
           </ul>
-        </div>
 
-        {/* Steps Section */}
-        <div className="steps-section">
-          <h2>Steps</h2>
           <ul>
             {steps.map((step, index) => (
-              <li key={index}>
+              <li key={index} style={{ display: "flex", alignItems: "center" }}>
                 Step {index + 1}: {step}
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveStep(index)}
+                  title="Remove step"
+                >
+                  ✖
+                </button>
               </li>
             ))}
           </ul>

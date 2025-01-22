@@ -1,4 +1,5 @@
 .container {
+  position: relative;
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
@@ -6,6 +7,9 @@
   border-radius: 12px;
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container h1 {
@@ -56,7 +60,6 @@
   border-radius: 5px;
 }
 
-
 .recipe-info {
   display: flex;
   justify-content: space-between;
@@ -70,22 +73,11 @@
   margin: 0 1rem;
 }
 
-.container {
-  position: relative; 
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: var(--background-light);
-  border-radius: 12px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-  font-family: 'Inter', sans-serif;
-}
-
 .save-button-container {
-  position: absolute; 
-  top: 20px; 
-  right: 20px; 
-  z-index: 10; 
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
 }
 
 .save-button-container button {
@@ -101,4 +93,29 @@
 .save-button-container button:hover {
   background-color: var(--button-hover);
   transform: translateY(-2px);
+}
+
+.owner-actions {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: auto; /* Pushes the buttons to the bottom */
+  padding: 1em 0;
+  border-top: 1px solid var(--secondary-text);
+}
+
+.owner-actions button {
+  background-color: var(--primary-accent);
+  color: white;
+  border: none;
+  padding: 0.75em 1.5em;
+  font-size: 1em;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.owner-actions button:hover {
+  background-color: var(--button-hover);
+  transform: scale(1.05);
 }
