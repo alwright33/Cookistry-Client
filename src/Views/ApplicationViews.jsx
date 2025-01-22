@@ -21,20 +21,10 @@ export const ApplicationViews = () => {
     }
   }, []);
 
-  const handleLogout = async () => {
-    const user = JSON.parse(localStorage.getItem("cookistry_user"));
-    if (!user || !user.token) return;
-
-    try {
-      await fetch("http://localhost:5122/api/Authentication/logout", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${user.token}` },
-      });
-      localStorage.removeItem("cookistry_user");
-      navigate("/login");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("cookistry_user");
+    setCurrentUser({});
+    navigate("/login");
   };
 
   return (
