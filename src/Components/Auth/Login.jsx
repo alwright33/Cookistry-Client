@@ -31,7 +31,7 @@ export const Login = () => {
       const data =
         contentType && contentType.includes("application/json")
           ? await response.json()
-          : {}; // Fallback to an empty object
+          : {};
 
       if (!data.userId) {
         throw new Error("Login response missing user ID");

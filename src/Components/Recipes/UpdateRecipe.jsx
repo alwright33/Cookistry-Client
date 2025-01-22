@@ -64,6 +64,16 @@ const UpdateRecipe = () => {
     setSelectedIngredient(ingredient);
   };
 
+  const handleRemoveStep = (index) => {
+    setSteps((prevSteps) => prevSteps.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveIngredient = (index) => {
+    setIngredients((prevIngredients) =>
+      prevIngredients.filter((_, i) => i !== index)
+    );
+  };
+
   const handleAddIngredientDetails = () => {
     setIngredients((prevIngredients) => [
       ...prevIngredients,
@@ -122,7 +132,6 @@ const UpdateRecipe = () => {
           stepInstruction: step,
         })),
       };
-      console.log("Submitting updated recipe data:", recipeData);
 
       await RecipeService.updateRecipe(recipe.recipeId, recipeData);
 
@@ -206,24 +215,36 @@ const UpdateRecipe = () => {
           </button>
           <ul>
             {ingredients.map((ingredient, index) => (
-              <li key={index}>
+              <li key={index} style={{ display: "flex", alignItems: "center" }}>
                 {ingredient.name} - {ingredient.quantity} {ingredient.unit} (
                 {ingredient.prepDetails})
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveIngredient(index)}
+                  title="Remove ingredient"
+                >
+                  ✖
+                </button>
               </li>
             ))}
           </ul>
-        </div>
 
-        {/* Steps Section */}
-        <div className="steps-section">
-          <h2>Steps</h2>
-          <ul>
+          <ol>
             {steps.map((step, index) => (
-              <li key={index}>
+              <li key={index} style={{ display: "flex", alignItems: "center" }}>
                 Step {index + 1}: {step}
+                <button
+                  type="button"
+                  className="remove-button"
+                  onClick={() => handleRemoveStep(index)}
+                  title="Remove step"
+                >
+                  ✖
+                </button>
               </li>
             ))}
-          </ul>
+          </ol>
           <div className="form-group">
             <label htmlFor="newStep">Add Step:</label>
             <textarea
